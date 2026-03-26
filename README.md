@@ -10,6 +10,7 @@ Game has 4 screens:
 - Result screen where player can view the final score of this round and the highest score.
 
 ### URL
+The game can be played online in a browser using computer or tablet. URL: https://proutamaa.github.io/Spacerun_game/
 
 ### local
 The game can be run locally from the root folder with the command: flutter run -d chrome 'src/main.dart'

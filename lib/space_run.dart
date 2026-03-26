@@ -14,7 +14,7 @@ import 'main.dart';
 
 enum GameState { intro, playing, gameOver, won }
 
-class SpaceRun extends FlameGame with HasCollisionDetection, KeyboardEvents, PanDetector {
+class SpaceRun extends FlameGame with HasCollisionDetection, KeyboardEvents, DragCallbacks {
   int level;
 
   SpaceRun({this.level = 1})
@@ -130,13 +130,23 @@ class SpaceRun extends FlameGame with HasCollisionDetection, KeyboardEvents, Pan
       return; 
     }
 
+    final ships = world.children.query<Ship>();
+    if (ships.isNotEmpty) {
+      final ship = ships.first;
+      // Clamp ship position to be within screen bounds.
+      // The right boundary has special game logic, so we only handle left, top, and bottom here.
+      if (ship.position.x < 0) {
+        ship.position.x = 0;
+      }
+      ship.position.y = ship.position.y.clamp(0, height - ship.height);
+    }
+
     if (lives <= 0) {
       gameState = GameState.gameOver;
       _showGameOver();
       return;
     }
 
-    final ships = world.children.query<Ship>();
     if (ships.isNotEmpty && ships.last.position.x > (width - 20)) {
       if (levelScore >= 5) {
         gameState = GameState.won;
@@ -302,11 +312,14 @@ class SpaceRun extends FlameGame with HasCollisionDetection, KeyboardEvents, Pan
   } 
 
   @override
-  void onPanUpdate(DragUpdateInfo info) {
+  void onDragUpdate(DragUpdateEvent event) {
     if (gameState != GameState.playing) return;
     final ships = world.children.query<Ship>();
     if (ships.isNotEmpty) {
-      ships.first.moveBy(info.delta.global);
+      // Update position directly to avoid the MoveToEffect lag,
+      // and apply a sensitivity multiplier to increase speed.
+      const dragSensitivity = 2.0; 
+      ships.first.position += event.canvasDelta * dragSensitivity;
     }
   }
 

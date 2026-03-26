@@ -26,8 +26,9 @@ class Ship extends SpriteComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    position.x = (position.x + event.localDelta.x).clamp(0, game.width);
-    position.y = (position.y + event.localDelta.y).clamp(0, game.height);
+    const dragSensitivity = 2.0;
+    position.x = (position.x + (event.localDelta.x * dragSensitivity)).clamp(0, game.width);
+    position.y = (position.y + (event.localDelta.y * dragSensitivity)).clamp(0, game.height);
   }
 
   void moveBy(Vector2 delta) {
