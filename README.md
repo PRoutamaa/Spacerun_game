@@ -9,6 +9,10 @@ Game has 4 screens:
 - Game screen where the game is played 
 - Result screen where player can view the final score of this round and the highest score.
 
+### Game play
+Game can be played on a computer using mouse and arrowkeys to navigate the ship or 
+on tablet by dragging your finger on screen.
+
 ### URL
 The game can be played online in a browser using computer or tablet. URL: https://proutamaa.github.io/Spacerun_game/
 

@@ -316,8 +316,6 @@ class SpaceRun extends FlameGame with HasCollisionDetection, KeyboardEvents, Dra
     if (gameState != GameState.playing) return;
     final ships = world.children.query<Ship>();
     if (ships.isNotEmpty) {
-      // Update position directly to avoid the MoveToEffect lag,
-      // and apply a sensitivity multiplier to increase speed.
       const dragSensitivity = 2.0; 
       ships.first.position += event.canvasDelta * dragSensitivity;
     }
